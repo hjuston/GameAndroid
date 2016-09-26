@@ -1,0 +1,59 @@
+[Bonus za obejrzenie reklamy - "udro¿nienie systemu kanalizacji" - totalIncome x2 przez 2 godziny]
+[Bonus za obejrzenie reklamy - X punktów premium]
+
+Struktura
+
+[Miasto] (Prestige - zwiêksza iloœæ turystów (prestige zdobywa siê przez budowle typu hotel, kino, centrum handlowe))
+	Desc: Prestige zwiêksza iloœæ turystów. Zdobywa siê go poprzez budowle turystyczne typu hotel, kino, centrum handlowe.
+		  Iloœæ turystów to dodatkowy mno¿nik sh/s.
+
+	[Buildings] (Nazwa, Typ, iloœæ sh/s)
+		Desc: Budynki dziel¹ siê na 3 typy. 1 - Mieszkania (dom, blok itp.) 2 - Budynki turystyczne (kino, hotel...)
+			  3 - Budynki infrastruktury (Oczyszczalnia, ?)
+	    - ka¿de ulepszenie budynku zwiêksza sh/s
+		- Bonusy budynku do odblokowania co X lvli (10, 25, 50, 100, ?)
+			- ulepszenia zwiêkszaj¹ baseIncome
+			- ka¿dy budynek musi mieæ ulepszenia
+
+
+TODO:
+
+1. Zarz¹dzanie budynkami w poziomu edytora.
+	- ScriptableObjects - ItemsDatabase
+	- Dodawanie nowych budynków z menu podrêcznego Create
+	- Wykrywanie budynków poprzez Resources ze zdefiniowanego katalogu (np. "Resources/Buildings")
+
+2. Zaimplementowaæ typy budynków, a nastêpnie stworzyæ ich prefaby
+
+3. Zaimplemenowaæ tryb Away.
+	- Zapisaæ czas zamkniêcia aplikacji
+	- Po ponownym uruchomieniu obliczyæ ró¿nicê czasu i na podstawie Income/s obliczyæ AwayIncome
+
+4. Stworzyæ menu startowe gry
+
+5. Stworzyæ menu opcji gry (dŸwiêk, credits, ?)
+
+6. Stworzyæ menu zakupów premium
+	- mo¿liwoœæ kupna Instant sh/s
+	- mo¿liwoœæ kupna Sh/s x2 Forever
+	- ? (dodaæ jeszcze kilka)
+	- mo¿liwoœæ zakupu punktów premium za gotówkê (PLN)
+
+7. Stworzyæ menu zarz¹dzania budynkiem
+	- informacje o budynku
+	- ulepszanie budynku
+	- kupowanie bonusów budynku
+	- burzenie budynku
+
+8. Zaimplementowaæ system kratek na mapie.
+	- budynki maj¹ okreœlon¹ wielkoœæ np. 4x5 (20 kratek)
+	- stawiaæ je mo¿na na wolnych kratkach
+	- budynki mo¿na obracaæ
+
+9. Stworzyæ menu trybu budowania
+	- ustawianie budynku
+	- obracanie
+	- burzenie budynków
+	- wybieranie budynków z menu typu
+	- animacja przy otwieraniu menu budowania (wiruj¹cy klucz + dŸwiêk? - wy³¹czalne w opcjach)
+	- pauzowanie gry?

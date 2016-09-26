@@ -24,29 +24,25 @@ public class BuildingManager : MonoBehaviour {
     {
         switch(type)
         {
-            case BuildingType.CerealFarm:
+            case BuildingType.SmallHouse:
                 cost = "40";
                 income = "1";
                 break;
-            case BuildingType.OatFarm:
+            case BuildingType.BigHouse:
                 cost = "300";
                 income = "7";
                 break;
-            case BuildingType.BarleyFarm:
+            case BuildingType.Cinema:
                 cost = "1700";
                 income = "25";
                 break;
-            case BuildingType.FlaxFarm:
+            case BuildingType.Hotel:
                 cost = "12000";
                 income = "110";
                 break;
-            case BuildingType.RyeFarm:
+            case BuildingType.Sludgework:
                 cost = "51000";
                 income = "900";
-                break;
-            case BuildingType.MaltFarm:
-                cost = "225000";
-                income = "3950";
                 break;
             default:
                 cost = "10";
