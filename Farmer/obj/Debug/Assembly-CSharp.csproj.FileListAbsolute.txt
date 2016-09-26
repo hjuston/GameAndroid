@@ -1,0 +1,24 @@
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEditor.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEngine.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEngine.Networking.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEngine.UI.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Mono.Cecil.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Unity.SerializationLogic.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Unity.DataContract.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Unity.UNetWeaver.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Unity.CecilTools.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEngine.xml
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEditor.xml
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEngine.UI.xml
+C:\Program Files\Unity\Mar\Gm\Temp\bin\Debug\UnityEngine.Networking.xml
+C:\Program Files\Unity\Mar\Gm\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Program Files\Unity\Mar\Gm\obj\Debug\Assembly-CSharp.dll
+C:\Program Files\Unity\Mar\Gm\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Medialine\Documents\GitHub\Projekt\Farmer\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Medialine\Documents\GitHub\Projekt\Farmer\obj\Debug\Assembly-CSharp.dll
+C:\Users\Medialine\Documents\GitHub\Projekt\Farmer\obj\Debug\Assembly-CSharp.pdb
