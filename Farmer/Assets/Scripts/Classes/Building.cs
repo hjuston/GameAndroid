@@ -18,6 +18,8 @@ public class Building  {
     public BuildingType Type;
     public int UpgradeNumber = 0;
 
+    public Building UpgradeTo;
+
     /// <summary>
     /// Metoda oblicza koszt budowli na podstawie poziomu ulepszenia
     /// </summary>

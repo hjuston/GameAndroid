@@ -10,10 +10,44 @@ Struktura
 	[Buildings] (Nazwa, Typ, iloœæ sh/s)
 		Desc: Budynki dziel¹ siê na 3 typy. 1 - Mieszkania (dom, blok itp.) 2 - Budynki turystyczne (kino, hotel...)
 			  3 - Budynki infrastruktury (Oczyszczalnia, ?)
-	    - ka¿de ulepszenie budynku zwiêksza sh/s
-		- Bonusy budynku do odblokowania co X lvli (10, 25, 50, 100, ?)
-			- ulepszenia zwiêkszaj¹ baseIncome
-			- ka¿dy budynek musi mieæ ulepszenia
+
+			  
+			- na poziomach 10, 25, 50, 75, 100 maj¹ ulepszenia (baseIncome)
+			- ka¿de ulepszenie budynku zwiêksza sh/s
+			- co 150 lvli odblokowuje siê nowy budynek i mo¿na przekszta³ciæ istniej¹cy w lepszy
+				np. Hut -> small house, hotel* -> hotel ** 
+
+Standard		
+	- Hut -> Small house -> Big house -> Apartment block -> Pension -> Villa -> Mansion -> Palace ->  Skyscraper
+
+** odblokowywanie po jakimœ czasie
+Infrastruktura	
+	- Small factory -> Large factory -> Powerful factory -> Factory v2
+	- Sludgeworks H1Z1 -> Sludgeworks D2H1 -> Sludgeworks BU38 -> Sludgeworks ABC1 -> Sludgeworks C17
+	- Waterworks v1 -> Waterworks v2 -> Waterworks v3 -> Waterworks v4 -> Waterworks v4.5
+	- Cage -> Prison -> Political prison -> Military prison -> Modern prison
+
+** odblokowywane po jakimœ czasie (po infrastrukturze)
+Prestige		
+	- Hotel* -> Hotel** -> Hotel*** -> Hotel**** -> Hotel *****
+	- Car cinema -> Cinema building -> Modern cinema -> 
+	- Park -> Underinvested park -> Large park -> 
+	- Shopping mall -> Large shopping mall
+	- Food automatat -> Hot dog stand -> Sandwitch bar -> Fast food -> Family restaurant -> Seafood restaurant -> Chef's restaurant
+	- Bus station -> Train station -> Metro -> Intercontinental train station -> Capsule transport station -> Worldwide underground capsule station
+	- Amusement park -> Amusement park II -> Amusement park III
+	- Zoo -> Safari zoo -> Ice zoo -> Aquapark -> Rare animals Zoo -> Space zoo
+
+
+MENU
+		 ____________________________________
+		|INFO PANEL|                         |* Building info + upgrade
+		|----------+                         |* 
+		|                                    |* 
+		|                                    |* 
+		|                                    |* Bonus points shop + PLN
+		|                                    |* Reset menu
+		|____________________________________|* Options (sound, animations, start new game, exit)
 
 
 TODO:
@@ -29,14 +63,14 @@ TODO:
 	- Zapisaæ czas zamkniêcia aplikacji
 	- Po ponownym uruchomieniu obliczyæ ró¿nicê czasu i na podstawie Income/s obliczyæ AwayIncome
 
-4. Stworzyæ menu startowe gry
+4. Stworzyæ menu startowe gry ?
 
 5. Stworzyæ menu opcji gry (dŸwiêk, credits, ?)
 
 6. Stworzyæ menu zakupów premium
 	- mo¿liwoœæ kupna Instant sh/s
 	- mo¿liwoœæ kupna Sh/s x2 Forever
-	- ? (dodaæ jeszcze kilka)
+	- ? (dodaæ jeszcze kilka)q
 	- mo¿liwoœæ zakupu punktów premium za gotówkê (PLN)
 
 7. Stworzyæ menu zarz¹dzania budynkiem
@@ -57,3 +91,4 @@ TODO:
 	- wybieranie budynków z menu typu
 	- animacja przy otwieraniu menu budowania (wiruj¹cy klucz + dŸwiêk? - wy³¹czalne w opcjach)
 	- pauzowanie gry?
+
