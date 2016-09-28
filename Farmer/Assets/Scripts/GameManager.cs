@@ -8,12 +8,46 @@ public class GameManager : MonoBehaviour
     private BigInteger _currentMoney = new BigInteger("1231231");
     private BigInteger _generateMoneyCount = new BigInteger("0");
 
+    private GameObject GhostObject;
+    public GameObject Cube;
+
+    public bool CanPlace;
+
     void Start()
     {
         // Zliczanie gotówki
         InvokeRepeating("CollectMoney", 0f, 1f);
     }
+    
+    void Update()
+    {
+        if (GhostObject != null && Input.GetMouseButtonDown(0)) DropObject();
+    }
 
+    bool canPlace = false;
+    public void SpawnGhostObject()
+    {
+        GhostObject = GameObject.Instantiate<GameObject>(Cube);
+        GhostScript ghost = GhostObject.GetComponent<GhostScript>();
+        ghost.isGhost = true;
+
+        Renderer r = GhostObject.GetComponent<Renderer>();
+        r.material.SetColor("_Color", new Color(r.material.color.r, r.material.color.g, r.material.color.b, 0.10f));
+    }
+
+    void DropObject()
+    {
+        GhostScript ghost = GhostObject.GetComponent<GhostScript>();
+        Debug.Log(ghost.canPlace);
+        if (ghost.canPlace)
+        {
+            ghost.isGhost = false;
+
+            GameObject temp = GameObject.Instantiate<GameObject>(Cube);
+            ghost.GetComponent<Renderer>().material.SetColor("_Color", temp.GetComponent<Renderer>().material.color);
+            Destroy(temp);
+        }
+    }
 
     /// <summary>
     /// Metoda zlicza przychody z budynków i dodaje je do aktualnej gotówki

@@ -71,56 +71,56 @@ public class TileManager : MonoBehaviour
         //	}
         //}
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            RaycastHit hitInfo;
+        //    RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo))
-            {
-                if (hitInfo.collider.tag == "selectable")
-                {
-                    //Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 20f);
-                    // Sprawdzanie czy kratki które są obok w podanych wymiarach są wolne
+        //    if (Physics.Raycast(ray, out hitInfo))
+        //    {
+        //        if (hitInfo.collider.tag == "selectable")
+        //        {
+        //            //Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow, 20f);
+        //            // Sprawdzanie czy kratki które są obok w podanych wymiarach są wolne
 
-                    if (CheckCubes(hitInfo.collider.gameObject))
-                    {
-                        Debug.Log("JEST OK");
-                    }
-                    else
-                    {
-                        Debug.Log("NIE JEST OK");
-                    }
-
-
+        //            if (CheckCubes(hitInfo.collider.gameObject))
+        //            {
+        //                Debug.Log("JEST OK");
+        //            }
+        //            else
+        //            {
+        //                Debug.Log("NIE JEST OK");
+        //            }
 
 
-                    if (hitInfo.collider.gameObject != cube)
-                    {
-                        if (cube != null)
-                            cube.GetComponent<Renderer>().material = IdleTileMaterial;
 
-                        cube = hitInfo.collider.gameObject;
-                        cube.GetComponent<Renderer>().material = SelectedTileMaterial;
-                    }
-                }
-                else
-                {
-                    if (cube != null)
-                        cube.GetComponent<Renderer>().material = IdleTileMaterial;
 
-                    cube = null;
-                }
-            }
-            else
-            {
-                if (cube != null)
-                    cube.GetComponent<Renderer>().material = IdleTileMaterial;
+        //            if (hitInfo.collider.gameObject != cube)
+        //            {
+        //                if (cube != null)
+        //                    cube.GetComponent<Renderer>().material = IdleTileMaterial;
 
-                cube = null;
-            }
-        }
+        //                cube = hitInfo.collider.gameObject;
+        //                cube.GetComponent<Renderer>().material = SelectedTileMaterial;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (cube != null)
+        //                cube.GetComponent<Renderer>().material = IdleTileMaterial;
+
+        //            cube = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (cube != null)
+        //            cube.GetComponent<Renderer>().material = IdleTileMaterial;
+
+        //        cube = null;
+        //    }
+        //}
     }
 
 
