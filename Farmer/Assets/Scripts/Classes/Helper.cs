@@ -27,14 +27,14 @@ public static class Helper {
 	/// Metoda zwraca obiekt TileManager.
 	/// </summary>
 	/// <returns></returns>
-	public static GridManager GetTileManager()
+	public static GridManager GetGridManager()
 	{
 		GridManager result = null;
 
-		GameObject tileManagerObject = GameObject.FindGameObjectWithTag(CONSTS.GridManagerTag);
-		if (tileManagerObject != null)
+		GameObject gridManagerObject = GameObject.FindGameObjectWithTag(CONSTS.GridManagerTag);
+		if (gridManagerObject != null)
 		{
-			result = tileManagerObject.GetComponent<GridManager>();
+			result = gridManagerObject.GetComponent<GridManager>();
 		}
 
 		return result;
@@ -123,4 +123,21 @@ public static class Helper {
     {
         return GameObject.FindGameObjectWithTag(CONSTS.BuildingsGroupTag);
     }
+
+	/// <summary>
+	/// Metoda zwraca obiekt GameStats
+	/// </summary>
+	/// <returns></returns>
+	public static GameStats GetGameStats()
+	{
+		GameStats result = null;
+
+		GameObject gameStatsObject = GameObject.FindGameObjectWithTag(CONSTS.GameStatsTag);
+		if (gameStatsObject != null)
+		{
+			result = gameStatsObject.GetComponent<GameStats>();
+		}
+
+		return result;
+	}
 }

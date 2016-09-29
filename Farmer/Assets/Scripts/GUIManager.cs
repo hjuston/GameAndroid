@@ -82,7 +82,17 @@ public class GUIManager : MonoBehaviour
             prestigePanelIsVisible = !prestigePanelIsVisible;
         }
     }
-    #endregion
+
+	
+	#endregion
+
+	#region ** GameStats panel
+	public GameObject ExperiencePanel;
+	public void SetExperiencePanelValue(float percentage)
+	{
+		ExperiencePanel.transform.localScale = new Vector3( percentage, ExperiencePanel.transform.localScale.y, ExperiencePanel.transform.localScale.z);
+	}
+	#endregion
 
 
 
@@ -90,12 +100,10 @@ public class GUIManager : MonoBehaviour
 
 
 
-
-
-    /// <summary>
-    /// Metoda zamyka panel informacji o budowli. Wywoływane przez przycisk Close
-    /// </summary>
-    public void ClosePanel()
+	/// <summary>
+	/// Metoda zamyka panel informacji o budowli. Wywoływane przez przycisk Close
+	/// </summary>
+	public void ClosePanel()
 	{
 		//Helper.GetTileManager().SelectTile(null);
 		UpgradePanel.SetActive(false);

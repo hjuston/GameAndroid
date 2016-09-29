@@ -21,9 +21,9 @@ public class GridManager : MonoBehaviour
     /// <summary>
     /// Metoda tworzy obiekt Ghost
     /// </summary>
-    public void SpawnGhostObject()
+    public void SpawnGhostObject(GameObject prefab)
     {
-        GhostObject = GameObject.Instantiate<GameObject>(Cube);
+        GhostObject = GameObject.Instantiate<GameObject>(prefab);
 
         // Activate following button to move object
         GhostFollowingButton.SetActive(true);

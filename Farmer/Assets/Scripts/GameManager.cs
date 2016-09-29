@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
             _currentMoney += _generateMoneyCount;
             Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
         }
+
+		Helper.GetGameStats().AddExperience(10);
     }
     
    
