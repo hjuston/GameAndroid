@@ -7,8 +7,8 @@ public class CameraController : MonoBehaviour {
 		null,
 		null
 	};
-	Vector2 oldTouchVector;
-	float oldTouchDistance;
+	//Vector2 oldTouchVector;
+	//float oldTouchDistance;
 
 	void Update()
 	{

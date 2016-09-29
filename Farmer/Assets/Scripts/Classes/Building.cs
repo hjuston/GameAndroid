@@ -3,22 +3,36 @@ using System.Collections;
 using System;
 
 [Serializable]
-public class Building  {
+public class Building {
 
+    // Nazwa i typ
     public string Name;
-    
-    public BigInteger BaseCost;
-    public float CostMultiplier;
+    public BuildingType BuildingType;
 
+    // Poziom ulepszenia budynku
+    public int BuildingLevel = 1;
+
+    // Bazowy przychód i koszt budynku
+    public int iBaseIncome;
     public BigInteger BaseIncome;
 
-    public GameObject Prefab;
+    public int iBaseCost;
+    public BigInteger BaseCost;
+
+    // Mnożnik kosztów budynku (1.07 - 1.15)
+    public float CostMultiplier;
+
+
+    // Lista ulepszeń budynku (aktywne i nieaktywne). Na jej podstawie zliczane są bonusy
+    public Upgrade[] Upgrades;
+
+    // Właściwość określa, czy budynek został postawiony za pomocą edytora.
+    // Jeżeli tak to przy burzeniu należy zwrócić część kwoty.
+    public bool IsPlacedForReal = false;
+
+    // Prefaby budynku
+    public GameObject BuildingPrefab;
     public GameObject ButtonPrefab;
-
-    public BuildingType Type;
-    public int UpgradeNumber = 0;
-
-    public Building UpgradeTo;
 
     /// <summary>
     /// Metoda oblicza koszt budowli na podstawie poziomu ulepszenia
@@ -26,8 +40,8 @@ public class Building  {
     /// <returns></returns>
     public BigInteger GetCost()
     {
-        // Wzór BaseCost * CostMultiplier ^ (UpgradeNumber)
-        return BaseCost * ((float)Math.Pow(CostMultiplier, UpgradeNumber+1));
+        // Wzór BaseCost * CostMultiplier ^ (BuildingLevel)
+        return BaseCost * ((float)Math.Pow(CostMultiplier, BuildingLevel));
     }
 
 
@@ -37,8 +51,8 @@ public class Building  {
     /// <returns></returns>
     public BigInteger GetIncome()
     {
-        // Wzór BaseIncome  * UpgradeNumber - np. 5, 10, 15, 20
-        return BaseIncome * new BigInteger(UpgradeNumber == 0 ? 1 : UpgradeNumber);
+        // Wzór BaseIncome  * BuildingLevel
+        return BaseIncome * new BigInteger(BuildingLevel);
     }
 
 
@@ -48,7 +62,7 @@ public class Building  {
     /// <returns></returns>
     public BigInteger GetSellPrice()
     {
-        return BaseCost / 3;
+        return GetCost() / 3;
     }
 
     /// <summary>
@@ -56,9 +70,13 @@ public class Building  {
     /// </summary>
     public void Upgrade()
     {
-        UpgradeNumber++;
+        BuildingLevel++;
     }
 
+    /// <summary>
+    /// Pobiera kopię prefabu (unlinked) - nie wiadomo czy będzie potrzebne?
+    /// </summary>
+    /// <returns></returns>
     public Building GetCopy()
     {
         return this.MemberwiseClone() as Building;

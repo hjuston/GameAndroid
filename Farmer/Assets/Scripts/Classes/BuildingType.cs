@@ -3,11 +3,7 @@ using System.Collections;
 
 public enum BuildingType
 {
-    SmallHouse = 0,
-    BigHouse = 1,
-
-    Cinema = 100,
-    Hotel = 101,
-
-    Sludgework = 200
+    Standard = 0,
+    Infrastructure = 1,
+    Prestige = 2
 }

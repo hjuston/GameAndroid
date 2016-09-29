@@ -79,14 +79,15 @@ TODO:
 	- kupowanie bonusów budynku
 	- burzenie budynku
 
-8. Zaimplementowaæ system kratek na mapie.
+
+[X] 8. Zaimplementowaæ system kratek na mapie.
 	- budynki maj¹ okreœlon¹ wielkoœæ np. 4x5 (20 kratek)
 	- stawiaæ je mo¿na na wolnych kratkach
 	- budynki mo¿na obracaæ
 
 9. Stworzyæ menu trybu budowania
-	- ustawianie budynku
-	- obracanie
+	X ustawianie budynku 
+	X obracanie
 	- burzenie budynków
 	- wybieranie budynków z menu typu
 	- animacja przy otwieraniu menu budowania (wiruj¹cy klucz + dŸwiêk? - wy³¹czalne w opcjach)

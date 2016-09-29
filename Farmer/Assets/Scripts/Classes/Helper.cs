@@ -13,7 +13,7 @@ public static class Helper {
 	{
 		BuildingManager result = null;
 
-		GameObject buildingManagerObject = GameObject.FindGameObjectWithTag("BuildingManager");
+		GameObject buildingManagerObject = GameObject.FindGameObjectWithTag(CONSTS.BuildingManagerTag);
 		if (buildingManagerObject != null)
 		{
 			result = buildingManagerObject.GetComponent<BuildingManager>();
@@ -27,14 +27,14 @@ public static class Helper {
 	/// Metoda zwraca obiekt TileManager.
 	/// </summary>
 	/// <returns></returns>
-	public static TileManager GetTileManager()
+	public static GridManager GetTileManager()
 	{
-		TileManager result = null;
+		GridManager result = null;
 
-		GameObject tileManagerObject = GameObject.FindGameObjectWithTag("TileManager");
+		GameObject tileManagerObject = GameObject.FindGameObjectWithTag(CONSTS.GridManagerTag);
 		if (tileManagerObject != null)
 		{
-			result = tileManagerObject.GetComponent<TileManager>();
+			result = tileManagerObject.GetComponent<GridManager>();
 		}
 
 		return result;
@@ -49,7 +49,7 @@ public static class Helper {
 	{
 		GameManager result = null;
 
-		GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+		GameObject gameManagerObject = GameObject.FindGameObjectWithTag(CONSTS.GameManagerTag);
 		if (gameManagerObject != null)
 		{
 			result = gameManagerObject.GetComponent<GameManager>();
@@ -67,7 +67,7 @@ public static class Helper {
 	{
 		GUIManager result = null;
 
-		GameObject guiManagerObject = GameObject.FindGameObjectWithTag("GUIManager");
+		GameObject guiManagerObject = GameObject.FindGameObjectWithTag(CONSTS.GUIManagerTag);
 		if (guiManagerObject != null)
 		{
 			result = guiManagerObject.GetComponent<GUIManager>();
@@ -113,5 +113,14 @@ public static class Helper {
             false);
 
         return attributes.Any() ? ((DescriptionAttribute)attributes[0]).Description : value.ToString();
+    }
+
+    /// <summary>
+    /// Metoda zwraca grupę (pusty gameobject) zawierającą budynki
+    /// </summary>
+    /// <returns></returns>
+    public static GameObject GetBuildingsGroup()
+    {
+        return GameObject.FindGameObjectWithTag(CONSTS.BuildingsGroupTag);
     }
 }

@@ -36,12 +36,68 @@ public class GUIManager : MonoBehaviour
 		InitializeBuildingButtons();
 	}
 
-	/// <summary>
-	/// Metoda zamyka panel informacji o budowli. Wywoływane przez przycisk Close
-	/// </summary>
-	public void ClosePanel()
+
+
+    #region ** EditMode panel
+    public GameObject EditPanel;
+
+    public GameObject StandardBuildingsPanel;
+    public GameObject InfrastructureBuildingsPanel;
+    public GameObject PrestigeBuildingsPanel;
+
+    public void ToggleEditPanel(bool visible)
+    {
+        EditPanel.SetActive(visible);
+    }
+
+    bool standardPanelIsVisible = false;
+    public void ToggleStandardBuildingsPanel()
+    {
+        Animator animator = StandardBuildingsPanel.GetComponent<Animator>();
+        if(animator != null)
+        {
+            animator.SetBool("IsVisible", !standardPanelIsVisible);
+            standardPanelIsVisible = !standardPanelIsVisible;
+        }
+    }
+
+    bool infrastructurePanelIsVisible = false;
+    public void ToggleInfrastructureBuildingsPanel()
+    {
+        Animator animator = InfrastructureBuildingsPanel.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetBool("IsVisible", !infrastructurePanelIsVisible);
+            infrastructurePanelIsVisible = !infrastructurePanelIsVisible;
+        }
+    }
+
+    bool prestigePanelIsVisible = false;
+    public void TogglePrestigeBuildingsPanel()
+    {
+        Animator animator = PrestigeBuildingsPanel.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetBool("IsVisible", !prestigePanelIsVisible);
+            prestigePanelIsVisible = !prestigePanelIsVisible;
+        }
+    }
+    #endregion
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// Metoda zamyka panel informacji o budowli. Wywoływane przez przycisk Close
+    /// </summary>
+    public void ClosePanel()
 	{
-		Helper.GetTileManager().SelectTile(null);
+		//Helper.GetTileManager().SelectTile(null);
 		UpgradePanel.SetActive(false);
 	}
 
@@ -69,7 +125,7 @@ public class GUIManager : MonoBehaviour
 		{
 
 			BuildingNameLabel.text = building.Name;
-			UpgradeNumberText.text = building.UpgradeNumber.ToString();
+			UpgradeNumberText.text = building.BuildingLevel.ToString();
 
 			BuildingIncomeLabel.text = Helper.GetDisplayableValue(building.GetIncome());
 
@@ -109,47 +165,47 @@ public class GUIManager : MonoBehaviour
 	/// </summary>
 	void DisplayAvailableBuildingButtons(BigInteger money)
 	{
-		Button[] upgradeButtons = BuildingButtonPanel.GetComponentsInChildren<Button>(true);
-		foreach (Button upgradeButton in upgradeButtons)
-		{
-			UpgradeButton script = GetButtonScript(upgradeButton);
-			if (script != null)
-			{
-				upgradeButton.gameObject.SetActive(script.GetBuildingCost() > money ? false : true);
-			}
-		}
+		//Button[] upgradeButtons = BuildingButtonPanel.GetComponentsInChildren<Button>(true);
+		//foreach (Button upgradeButton in upgradeButtons)
+		//{
+		//	UpgradeButton script = GetButtonScript(upgradeButton);
+		//	if (script != null)
+		//	{
+		//		upgradeButton.gameObject.SetActive(script.GetBuildingCost() > money ? false : true);
+		//	}
+		//}
 	}
 
-	UpgradeButton GetButtonScript(Button btn)
-	{
-		UpgradeButton result = null;
+	//UpgradeButton GetButtonScript(Button btn)
+	//{
+	//	//UpgradeButton result = null;
 
-		if (btn != null)
-		{
-			result = btn.GetComponentInParent<UpgradeButton>();
-		}
+	//	//if (btn != null)
+	//	//{
+	//	//	result = btn.GetComponentInParent<UpgradeButton>();
+	//	//}
 
-		return result;
-	}
+	//	//return result;
+	//}
 
 	/// <summary>
 	/// Tworzenie przycisków za pomocą których można umieszczać budynki.
 	/// </summary>
 	void InitializeBuildingButtons()
 	{
-		Building[] buildings = Helper.GetBuildingManager().GetAllBuildings();
-		foreach (Building building in buildings)
-		{
-			GameObject buildingButton = Button.Instantiate(building.ButtonPrefab);
-			buildingButton.transform.SetParent(BuildingButtonPanel.transform);
+		//Building[] buildings = Helper.GetBuildingManager().GetAllBuildings();
+		//foreach (Building building in buildings)
+		//{
+		//	GameObject buildingButton = Button.Instantiate(building.ButtonPrefab);
+		//	buildingButton.transform.SetParent(BuildingButtonPanel.transform);
 
-			// Ustawianie nazwy przycisku
-			Text btnText = buildingButton.GetComponentInChildren<Text>();
-			if (btnText != null)
-			{
-				btnText.text = building.Name.Substring(0, 1);
-			}
-		}
+		//	// Ustawianie nazwy przycisku
+		//	Text btnText = buildingButton.GetComponentInChildren<Text>();
+		//	if (btnText != null)
+		//	{
+		//		btnText.text = building.Name.Substring(0, 1);
+		//	}
+		//}
 	}
 
 
@@ -161,11 +217,11 @@ public class GUIManager : MonoBehaviour
 	/// <param name="buildingCost"></param>
 	public void SetSellButtonAvailable(bool available)
 	{
-		SellButton.gameObject.SetActive(available);
-		if (available)
-		{
-			BigInteger sellPrice = Helper.GetTileManager().CurrentTile.Building.GetSellPrice();
-		}
+		//SellButton.gameObject.SetActive(available);
+		//if (available)
+		//{
+		//	SellCostLabel.text = Helper.GetDisplayableValue(Helper.GetTileManager().CurrentTile.Building.GetSellPrice());
+		//}
 	}
 
 
@@ -176,11 +232,11 @@ public class GUIManager : MonoBehaviour
 	/// <param name="available"></param>
 	public void SetUpgradeButtonAvailable(bool available)
 	{
-		UpgradeButton.gameObject.SetActive(available);
-		if (available)
-		{
-			BigInteger upgradePrice = Helper.GetTileManager().CurrentTile.Building.GetCost();
-		}
+		//UpgradeButton.gameObject.SetActive(available);
+		//if (available)
+		//{
+  //          UpgradeCostLabel.text = Helper.GetDisplayableValue(Helper.GetTileManager().CurrentTile.Building.GetCost());
+		//}
 	}
 
 	/// <summary>
