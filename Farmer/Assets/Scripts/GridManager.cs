@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     private Color _ghostObjectOriginalColor;
     private GameObject GhostObject {
         get { return _ghostObject; }
-        set { _ghostObject = value; _ghostObjectOriginalColor = (value == null) ? Color.white : value.GetComponent<Renderer>().material.color; } }
+        set { _ghostObject = value; /*_ghostObjectOriginalColor = (value == null) ? Color.white : value.GetComponent<Renderer>().material.color;*/ } }
 
     // Przycisk potwierdzenia do postawienia budynku
     public GameObject GhostFollowingButton;
@@ -23,15 +23,18 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void SpawnGhostObject(GameObject prefab)
     {
-        GhostObject = GameObject.Instantiate<GameObject>(prefab);
+        if (GhostObject == null)
+        {
+            GhostObject = GameObject.Instantiate<GameObject>(prefab);
 
-        // Activate following button to move object
-        GhostFollowingButton.SetActive(true);
-        GhostFollowingButtonScript ghostFollowScript = GhostFollowingButton.GetComponent<GhostFollowingButtonScript>();
-        ghostFollowScript.SetGhostObject(GhostObject);
+            // Activate following button to move object
+            GhostFollowingButton.SetActive(true);
+            GhostFollowingButtonScript ghostFollowScript = GhostFollowingButton.GetComponent<GhostFollowingButtonScript>();
+            ghostFollowScript.SetGhostObject(GhostObject);
 
-        GhostScript ghostScript = GhostObject.GetComponent<GhostScript>();
-        ghostScript.isGhost = true;
+            GhostScript ghostScript = GhostObject.GetComponent<GhostScript>();
+            ghostScript.isGhost = true;
+        }
     }
 
     /// <summary>
@@ -45,7 +48,7 @@ public class GridManager : MonoBehaviour
             // Place object
             ghost.isGhost = false;
             //ghost.GetComponent<Renderer>().material = _ghostObjectOriginalMaterial;
-            ghost.GetComponent<Renderer>().material.SetColor("_Color", _ghostObjectOriginalColor);
+            //ghost.GetComponent<Renderer>().material.SetColor("_Color", _ghostObjectOriginalColor);
 
             // Hide following button to place button
             GhostFollowingButtonScript ghostFollowScript = GhostFollowingButton.GetComponent<GhostFollowingButtonScript>();
@@ -55,6 +58,7 @@ public class GridManager : MonoBehaviour
             // Ustawianie budynku jako child grupy budynków
             GhostObject.transform.SetParent(Helper.GetBuildingsGroup().transform);
 
+            GhostObject = null;
             // Informowanie budowli, że została wybudowana na prawdę
             //Building buildingScript = GhostObject.GetComponent<Building>();
             //if(buildingScript != null)
@@ -80,15 +84,21 @@ public class GridManager : MonoBehaviour
 
     public void RotateGhost()
     {
-        GhostScript ghostScript = _ghostObject.GetComponent<GhostScript>();
-        ghostScript.Rotate();
+        if (GhostObject != null)
+        {
+            GhostScript ghostScript = GhostObject.GetComponent<GhostScript>();
+            ghostScript.Rotate();
+        }
     }
 
     // Poruszanie obiektem Ghost
     private void GhostMove(float up, float down, float left, float right)
     {
-        GhostScript ghostScript = _ghostObject.GetComponent<GhostScript>();
-        ghostScript.MoveGhost(up, down, left, right);
+        if (GhostObject != null)
+        {
+            GhostScript ghostScript = GhostObject.GetComponent<GhostScript>();
+            ghostScript.MoveGhost(up, down, left, right);
+        }
     }
 
     public void GhostMoveUp() { GhostMove(1, 0, 0, 0); }

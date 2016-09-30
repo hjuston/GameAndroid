@@ -18,12 +18,13 @@ public class GhostScript : MonoBehaviour
     // Poruszanie 
     public void MoveGhost(float up, float down, float left, float right)
     {
-        transform.position = new Vector3(transform.position.x - left + right, 1f, transform.position.z + up - down);
+        transform.position = new Vector3(transform.position.x - left + right, 0.5f, transform.position.z + up - down);
     }
 
     public void Rotate()
     {
-        transform.Rotate(new Vector3(0f, transform.localRotation.y > 0 ? -90 : 90, 0f));
+        transform.Rotate(new Vector3(0f, /*transform.localRotation.y > 0 ? -90 :*/ 90, 0f));
+        SnapToGrid(transform.position);
     }
 
     private void CenterOfScreen()
@@ -48,12 +49,33 @@ public class GhostScript : MonoBehaviour
         {
             Transform hitTransform = hitInfo.collider.gameObject.transform;
 
-            Vector3 pozycjaTrafienia = new Vector3(hitTransform.position.x, 1f, hitTransform.position.z);
-            Vector3 przesuniecieSkala = new Vector3(-transform.localScale.x / 2, 0f, -transform.localScale.z / 2);
-            Vector3 przesunieciePodstawa = new Vector3(-hitTransform.localScale.x / 2, 0f, hitTransform.localScale.z / 2);
+            Vector3 pozycjaTrafienia = new Vector3(hitTransform.position.x, 0.5f, hitTransform.position.z);
+            Vector3 rotation = transform.localRotation.eulerAngles;
+            BoxCollider collider = gameObject.GetComponent<BoxCollider>();
+            
+            // Jeżeli jest ułożenie naturalne to rozmiary są odwrócone
+            float rozmiarWx = rotation.y == 0 || rotation.y == -180 || rotation.y == 180 ? collider.size.z : collider.size.x;
+            float rozmiarWz = rotation.y == 0 || rotation.y == -180 || rotation.y == 180 ? collider.size.x : collider.size.z;
+
+            // Liczenie przesunięcia na podstawie zmniejszonego rozmiaru collidera ( żeby nie dotykał krawędzi innych budynków )
+            float przesuniecieColliderX = (Mathf.Ceil(rozmiarWx) - rozmiarWx) / 2f;
+            float przesuniecieColliderZ = (Mathf.Ceil(rozmiarWz) - rozmiarWz) / 2f;
+
+            Vector3 przesuniecieSkala;
+            if (rozmiarWx == rozmiarWz)
+            {
+                przesuniecieSkala = new Vector3((float)rozmiarWx / (2f * rozmiarWx), 0f, (float)-rozmiarWz / (2f* rozmiarWz));
+            }
+            else
+            {
+                przesuniecieSkala = new Vector3((float)rozmiarWx / 2f, 0f, (float)-rozmiarWz / 2f);
+            }
+
+            Vector3 przesunieciePodstawa = new Vector3((float) -hitTransform.localScale.x / 2f, 0f, (float) hitTransform.localScale.z / 2f);
+            Vector3 przesuniecieCollider = new Vector3(przesuniecieColliderX, 0f, -przesuniecieColliderZ);
 
             // Pozycja elementu snapuje sie do grida
-            transform.position = pozycjaTrafienia + przesuniecieSkala + przesunieciePodstawa;
+            transform.position = pozycjaTrafienia - przesuniecieSkala - przesuniecieCollider;
         }
     }
 
@@ -70,7 +92,7 @@ public class GhostScript : MonoBehaviour
 				collisions.Add(other);
 
                 canPlace = false;
-                gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(Color.red.r, Color.red.g, Color.red.b, 0.50f));
+                //gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(Color.red.r, Color.red.g, Color.red.b, 0.50f));
             }
         }
     }
@@ -88,7 +110,7 @@ public class GhostScript : MonoBehaviour
 			if (collisions.Count == 0)
 			{
 				canPlace = true;
-				gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(Color.green.r, Color.green.g, Color.green.b, 0.50f));
+				//gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(Color.green.r, Color.green.g, Color.green.b, 0.50f));
 			}
         }
     }

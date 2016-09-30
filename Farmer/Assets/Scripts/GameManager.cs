@@ -5,14 +5,17 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    private BigInteger _currentMoney = new BigInteger("1231231");
-    private BigInteger _generateMoneyCount = new BigInteger("0");
+    private BigInteger _currentMoney = new BigInteger("12312123331");
+    private BigInteger _generateMoneyCount = new BigInteger("100");
 
     private bool EditMode = false;
 
 
     void Start()
     {
+        // Wczytywanie bazy danych budynków
+        BuildingsDatabase.LoadDatabase();
+
         InvokeRepeating("CollectMoney", 0f, 1f);
     }
 
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviour
             Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
         }
 
-		Helper.GetGameStats().AddExperience(10);
+		//Helper.GetGameStats().AddExperience(10);
     }
     
    
@@ -42,6 +45,16 @@ public class GameManager : MonoBehaviour
         return _currentMoney;
     }
 
+
+    /// <summary>
+    /// Metoda zmniejsza ilosć gotówki
+    /// </summary>
+    /// <returns></returns>
+    public void SpendMoney(BigInteger money)
+    {
+        _currentMoney -= money;
+        Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
+    }
 
     /// <summary>
     /// Metoda włącza tryb edycji

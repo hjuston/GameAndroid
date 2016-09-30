@@ -2,28 +2,40 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class BuildingButton : MonoBehaviour {
+public class BuildingButton : MonoBehaviour
+{
+    public GameObject building;
 
-    //public Buildings Type;
-
-    public Building Building;
-
-	void Start()
+	public void InitializeEvent(GameObject prefab)
 	{
+        building = prefab;
+
 		Button btn = gameObject.GetComponentInChildren<Button>();
 		if (btn != null)
 		{
-			btn.onClick.AddListener(() => Helper.GetGridManager().SpawnGhostObject(Building.BuildingPrefab));
+            btn.onClick.AddListener(() => SpawnGhost());
 		}
 	}
 
+    private void SpawnGhost()
+    {
+        Building buildingScript = building.GetComponent<Building>();
+        if(buildingScript != null)
+        {
+            BigInteger currentMoney = Helper.GetGameManager().GetCurrentMoney();
+            BigInteger cost = buildingScript.GetCost();
 
-	///// <summary>
-	///// Metoda zwraca koszt budynku
-	///// </summary>
-	///// <returns></returns>
-	//public BigInteger GetBuildingCost()
-	//{
-	//    return Helper.GetBuildingManager().GetBuildingByType(Type).GetCost();
-	//}
+            if (currentMoney >= cost)
+            {
+                Helper.GetGUIManager().ToggleStandardBuildingsPanel();
+                Helper.GetGridManager().SpawnGhostObject(building);
+            }
+            else
+            {
+                Debug.Log("Brak gotówki -- IMPLEMENT");
+            }
+        }
+
+        
+    }
 }

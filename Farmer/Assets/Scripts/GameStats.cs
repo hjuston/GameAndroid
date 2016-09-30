@@ -6,6 +6,8 @@ public class GameStats : MonoBehaviour {
 	private int _level = 1;
 	public int _requiredExperience = 100;
 	public int _currentExperience = 0;
+
+
 	
 	public void AddExperience(int experience)
 	{

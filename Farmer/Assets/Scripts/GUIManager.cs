@@ -34,6 +34,8 @@ public class GUIManager : MonoBehaviour
 	{
 		// Tworzenie przycisków do tworzenia farm
 		InitializeBuildingButtons();
+
+        InitializeStandardBuildingsPanelButtons();
 	}
 
 
@@ -83,7 +85,39 @@ public class GUIManager : MonoBehaviour
         }
     }
 
-	
+    /// <summary>
+    /// Metoda inicjalizuje panel Standardowych budowli - wypełnia go przyciskami
+    /// </summary>
+    public GameObject StandardBuildingsContent;
+    public void InitializeStandardBuildingsPanelButtons()
+    {
+        GameObject[] standardBuildings = BuildingsDatabase.GetBuildingsByType(BuildingType.Standard);
+
+        foreach (GameObject building in standardBuildings)
+        {
+            Building buildingScript = building.GetComponent<Building>();
+            if(buildingScript != null)
+            {
+                // Tworznie obiektu przycisku i wrzucanie go do kontenera
+                GameObject buildingButton = Button.Instantiate(buildingScript.ButtonPrefab);
+                buildingButton.transform.SetParent(StandardBuildingsContent.transform);
+
+                // Ustawianie nazwy przycisku
+                Text btnText = buildingButton.GetComponentInChildren<Text>();
+                if (btnText != null)
+                {
+                    btnText.text = buildingScript.Name;
+                }
+
+                // Ustawianie zdarzenia kliknięcia przycisku
+                BuildingButton buttonScript = buildingButton.GetComponent<BuildingButton>();
+                if (buttonScript != null)
+                {
+                    buttonScript.InitializeEvent(building);
+                }
+            }
+        }
+    }
 	#endregion
 
 	#region ** GameStats panel

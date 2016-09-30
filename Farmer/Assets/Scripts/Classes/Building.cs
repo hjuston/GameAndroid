@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [Serializable]
-public class Building {
+public class Building : MonoBehaviour {
 
     // Nazwa i typ
     public string Name;
@@ -22,7 +22,6 @@ public class Building {
     // Mnożnik kosztów budynku (1.07 - 1.15)
     public float CostMultiplier;
 
-
     // Lista ulepszeń budynku (aktywne i nieaktywne). Na jej podstawie zliczane są bonusy
     public Upgrade[] Upgrades;
 
@@ -31,9 +30,15 @@ public class Building {
     public bool IsPlacedForReal = false;
 
     // Prefaby budynku
-    public GameObject BuildingPrefab;
+    //public GameObject BuildingPrefab;
     public GameObject ButtonPrefab;
-
+    
+    public void InitializeBase()
+    {
+        BaseIncome = new BigInteger(iBaseIncome);
+        BaseCost = new BigInteger(iBaseCost);
+    }
+    
     /// <summary>
     /// Metoda oblicza koszt budowli na podstawie poziomu ulepszenia
     /// </summary>
