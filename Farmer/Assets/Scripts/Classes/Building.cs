@@ -45,7 +45,9 @@ public class Building : MonoBehaviour {
     /// <returns></returns>
     public BigInteger GetCost()
     {
-        // Wzór BaseCost * CostMultiplier ^ (BuildingLevel)
+		// Wzór BaseCost * CostMultiplier ^ (BuildingLevel)
+		if (BaseCost == null) InitializeBase();
+
         return BaseCost * ((float)Math.Pow(CostMultiplier, BuildingLevel));
     }
 
@@ -56,8 +58,10 @@ public class Building : MonoBehaviour {
     /// <returns></returns>
     public BigInteger GetIncome()
     {
-        // Wzór BaseIncome  * BuildingLevel
-        return BaseIncome * new BigInteger(BuildingLevel);
+		if (BaseIncome == null) InitializeBase();
+
+		// Wzór BaseIncome  * BuildingLevel
+		return BaseIncome * new BigInteger(BuildingLevel);
     }
 
 

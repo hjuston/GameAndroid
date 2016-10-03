@@ -22,6 +22,8 @@ public class BuildingButton : MonoBehaviour
         Building buildingScript = building.GetComponent<Building>();
         if(buildingScript != null)
         {
+			buildingScript.InitializeBase();
+
             BigInteger currentMoney = Helper.GetGameManager().GetCurrentMoney();
             BigInteger cost = buildingScript.GetCost();
 
@@ -32,7 +34,7 @@ public class BuildingButton : MonoBehaviour
             }
             else
             {
-                Debug.Log("Brak gotówki -- IMPLEMENT");
+                Debug.Log("Brak gotówki -- IMPLEMENT MESSAGE");
             }
         }
 

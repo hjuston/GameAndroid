@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    private BigInteger _currentMoney = new BigInteger("12312123331");
+    private BigInteger _currentMoney = new BigInteger("123123331");
     private BigInteger _generateMoneyCount = new BigInteger("100");
 
     private bool EditMode = false;
@@ -18,6 +18,25 @@ public class GameManager : MonoBehaviour
 
         InvokeRepeating("CollectMoney", 0f, 1f);
     }
+
+	/// <summary>
+	/// Metoda zwraca informację, czy gra znajduje się w trybie edycji
+	/// </summary>
+	/// <returns></returns>
+	public bool IsEditMode()
+	{
+		return EditMode;
+	}
+
+	/// <summary>
+	/// Metoda zwiększa ilość gotówki (np. w przypadku sprzedania budynku)
+	/// </summary>
+	/// <param name="money"></param>
+	public void AddMoney(BigInteger money)
+	{
+		_currentMoney += money;
+		Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
+	}
 
 
     /// <summary>
