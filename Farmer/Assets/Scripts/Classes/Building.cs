@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 [Serializable]
 public class Building : MonoBehaviour {
@@ -8,6 +9,8 @@ public class Building : MonoBehaviour {
     // Nazwa i typ
     public string Name;
     public BuildingType BuildingType;
+    public string Description;
+    public Sprite BuildingImage;
 
     // Poziom ulepszenia budynku
     public int BuildingLevel = 1;
@@ -18,6 +21,9 @@ public class Building : MonoBehaviour {
 
     public int iBaseCost;
     public BigInteger BaseCost;
+
+    public int BuildingUpgardeExperience;
+    public int BuildingBuyExperience;
 
     // Mnożnik kosztów budynku (1.07 - 1.15)
     public float CostMultiplier;
@@ -48,9 +54,13 @@ public class Building : MonoBehaviour {
 		// Wzór BaseCost * CostMultiplier ^ (BuildingLevel)
 		if (BaseCost == null) InitializeBase();
 
-        return BaseCost * ((float)Math.Pow(CostMultiplier, BuildingLevel));
+        return SimulateCost(BuildingLevel);
     }
 
+    private BigInteger SimulateCost(int level)
+    {
+        return BaseCost * ((float)Math.Pow(CostMultiplier, level));
+    }
 
     /// <summary>
     /// Metoda oblicza generowany przychód na podstawie poziomu ulepszenia
@@ -77,9 +87,9 @@ public class Building : MonoBehaviour {
     /// <summary>
     /// Metoda ulepsza budynek
     /// </summary>
-    public void Upgrade()
+    public void Upgrade(int levels)
     {
-        BuildingLevel++;
+        BuildingLevel += levels;
     }
 
     /// <summary>
@@ -89,5 +99,18 @@ public class Building : MonoBehaviour {
     public Building GetCopy()
     {
         return this.MemberwiseClone() as Building;
+    }
+
+    public BigInteger CalculateCostForNextXLevels(int levels)
+    {
+        BigInteger result = new BigInteger("0");
+
+        for(int level = BuildingLevel; level < BuildingLevel + levels; level++)
+        {
+            BigInteger simulatedCost = SimulateCost(level);
+            result += simulatedCost;
+        }
+
+        return result;
     }
 }

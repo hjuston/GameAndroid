@@ -13,6 +13,8 @@ class CONSTS
     public const string GridManagerTag = "GridManager";
     public const string BuildingManagerTag = "BuildingManager";
 
+    public const string GhostPositionGroupTag = "GhostPositionGroup";
+
     public const string BuildingsGroupTag = "BuildingsGroup";
 
 	public const string GameStatsTag = "GameStats";

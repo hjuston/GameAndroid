@@ -29,7 +29,6 @@ public class BuildingButton : MonoBehaviour
 
             if (currentMoney >= cost)
             {
-                Helper.GetGUIManager().ToggleStandardBuildingsPanel();
                 Helper.GetGridManager().SpawnGhostObject(building);
             }
             else

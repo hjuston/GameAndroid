@@ -4,8 +4,8 @@ using System.Collections;
 public static class BuildingsDatabase {
 
     private static GameObject[] _standardBuildings;
-    private static Building[] _infrastructureBuildings;
-    private static Building[] _prestigeBuildings;
+    private static GameObject[] _infrastructureBuildings;
+    private static GameObject[] _prestigeBuildings;
     private static bool _isLoaded = false;
 
    public static void LoadDatabase()
@@ -13,8 +13,12 @@ public static class BuildingsDatabase {
         _standardBuildings = Resources.LoadAll<GameObject>(@"Buildings/Standard");
         InitializeBase(_standardBuildings);
 
-        _infrastructureBuildings = Resources.LoadAll<Building>(@"Buildings/Infrastructure");
-        _prestigeBuildings = Resources.LoadAll<Building>(@"Buildings/Prestige");
+        _infrastructureBuildings = Resources.LoadAll<GameObject>(@"Buildings/Infrastructure");
+        InitializeBase(_infrastructureBuildings);
+
+        _prestigeBuildings = Resources.LoadAll<GameObject>(@"Buildings/Prestige");
+        InitializeBase(_prestigeBuildings);
+
         _isLoaded = true;
     }
 
@@ -42,8 +46,8 @@ public static class BuildingsDatabase {
 
         switch(type)
         {
-            case BuildingType.Infrastructure: return null;
-            case BuildingType.Prestige: return null;
+            case BuildingType.Infrastructure: return _infrastructureBuildings;
+            case BuildingType.Prestige: return _prestigeBuildings;
             case BuildingType.Standard: return _standardBuildings;
             default: return null;
         }

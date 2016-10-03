@@ -9,8 +9,6 @@ public class GridManager : MonoBehaviour
 
 	// Ghost object i jego materiał
 	private GameObject _ghostObject;
-	private Material _ghostObjectOriginalMaterial;
-	private Color _ghostObjectOriginalColor;
 	private GameObject GhostObject
 	{
 		get { return _ghostObject; }
@@ -19,7 +17,6 @@ public class GridManager : MonoBehaviour
 
 	// Przycisk potwierdzenia do postawienia budynku
 	public GameObject GhostFollowingButton;
-
 
 	void Update()
 	{
@@ -34,7 +31,7 @@ public class GridManager : MonoBehaviour
 
 				if(Physics.Raycast(ray, out hitInfo))
 				{
-					if (hitInfo.collider.tag == CONSTS.BuildingTag)
+					if (hitInfo.collider.tag == CONSTS.BuildingTag && GhostObject == null)
 					{
 						GhostObject = hitInfo.collider.gameObject;
 						ActivateGhostObject();
@@ -43,7 +40,6 @@ public class GridManager : MonoBehaviour
 			}
 		}
 	}
-
 
 	/// <summary>
 	/// Metoda tworzy obiekt Ghost
@@ -66,6 +62,8 @@ public class GridManager : MonoBehaviour
 
 		GhostScript ghostScript = GhostObject.GetComponent<GhostScript>();
 		ghostScript.isGhost = true;
+
+        Helper.GetGUIManager().SetGhostPositionGroupVisible(true);
 	}
 
 	/// <summary>
@@ -97,11 +95,14 @@ public class GridManager : MonoBehaviour
 					
 					// Wydanie pieniędzy
 					Helper.GetGameManager().SpendMoney(buildingScript.GetCost());
+                    Helper.GetGameStats().AddExperience(buildingScript.BuildingBuyExperience);
 				}
 			}
 
 			GhostObject = null;
-		}
+            Helper.GetGUIManager().SetGhostPositionGroupVisible(false);
+            Helper.GetGUIManager().SetMoneyGenerateInfo(Helper.GetGameManager().GetCurrentIncome());
+        }
 	}
 
 	/// <summary>
@@ -112,19 +113,38 @@ public class GridManager : MonoBehaviour
 		GhostFollowingButtonScript ghostFollowScript = GhostFollowingButton.GetComponent<GhostFollowingButtonScript>();
 		ghostFollowScript.UnsetGhostObject();
 		GhostFollowingButton.SetActive(false);
-		
-		Building buildingScript = GhostObject.GetComponent<Building>();
-		if (buildingScript != null)
-		{
-			if (buildingScript.IsPlacedForReal)
-			{
-				Helper.GetGameManager().AddMoney(buildingScript.GetSellPrice());
-			}
-		}
 
-		GameObject.Destroy(GhostObject);
+        Building buildingScript = GhostObject.GetComponent<Building>();
+        if (buildingScript != null)
+        {
+            if (!buildingScript.IsPlacedForReal)
+            {
+                GameObject.Destroy(GhostObject);
+            }
+        }
+
 		GhostObject = null;
 	}
+
+
+    /// <summary>
+    /// Jeżeli ghost jest wybudowanym wczesniej budynkiem to go sprzedaje. ( po kliknięciu przycisku sell )
+    /// </summary>
+    public void SellGhost()
+    {
+        GhostFollowingButtonScript ghostFollowScript = GhostFollowingButton.GetComponent<GhostFollowingButtonScript>();
+        ghostFollowScript.UnsetGhostObject();
+        GhostFollowingButton.SetActive(false);
+
+        Building buildingScript = GhostObject.GetComponent<Building>();
+        if (buildingScript != null)
+        {
+            if (buildingScript.IsPlacedForReal)
+            {
+                Helper.GetGameManager().AddMoney(buildingScript.GetSellPrice());
+            }
+        }
+    }
 
 	public void RotateGhost()
 	{

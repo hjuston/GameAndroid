@@ -52,7 +52,7 @@ MENU
 
 TODO:
 
-1. Zarz¹dzanie budynkami w poziomu edytora.
+1. Zarz¹dzanie budynkami w poziomu edytora. [NIEAKTUALNE]
 	- ScriptableObjects - ItemsDatabase
 	- Dodawanie nowych budynków z menu podrêcznego Create
 	- Wykrywanie budynków poprzez Resources ze zdefiniowanego katalogu (np. "Resources/Buildings")
@@ -74,22 +74,20 @@ TODO:
 	- mo¿liwoœæ zakupu punktów premium za gotówkê (PLN)
 
 7. Stworzyæ menu zarz¹dzania budynkiem
-	- informacje o budynku
-	- ulepszanie budynku
+	X informacje o budynku
+	X ulepszanie budynku
 	- kupowanie bonusów budynku
-	- burzenie budynku
-
 
 [X] 8. Zaimplementowaæ system kratek na mapie.
-	- budynki maj¹ okreœlon¹ wielkoœæ np. 4x5 (20 kratek)
-	- stawiaæ je mo¿na na wolnych kratkach
-	- budynki mo¿na obracaæ
+	X budynki maj¹ okreœlon¹ wielkoœæ np. 4x5 (20 kratek)
+	X stawiaæ je mo¿na na wolnych kratkach
+	X budynki mo¿na obracaæ
 
 9. Stworzyæ menu trybu budowania
 	X ustawianie budynku 
 	X obracanie
-	- burzenie budynków
-	- wybieranie budynków z menu typu
+	X burzenie budynków
+	X wybieranie budynków z menu typu
 	- animacja przy otwieraniu menu budowania (wiruj¹cy klucz + dŸwiêk? - wy³¹czalne w opcjach)
-	- pauzowanie gry?
+	X pauzowanie gry?
 
