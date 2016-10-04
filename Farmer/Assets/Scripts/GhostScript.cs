@@ -23,7 +23,7 @@ public class GhostScript : MonoBehaviour
 
 	public void Rotate()
 	{
-		transform.Rotate(new Vector3(0f, 90, 0f));
+		transform.Rotate(new Vector3(0f, /*transform.localRotation.y > 0 ? -90 :*/ 90, 0f));
 		SnapToGrid(transform.position);
 	}
 
@@ -95,6 +95,7 @@ public class GhostScript : MonoBehaviour
 				collisions.Add(other);
 
 				canPlace = false;
+				//gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(Color.red.r, Color.red.g, Color.red.b, 0.50f));
 			}
 		}
 	}
@@ -112,6 +113,7 @@ public class GhostScript : MonoBehaviour
 			if (collisions.Count == 0)
 			{
 				canPlace = true;
+				//gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(Color.green.r, Color.green.g, Color.green.b, 0.50f));
 			}
 		}
 	}

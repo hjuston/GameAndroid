@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GhostFollowingButtonScript : MonoBehaviour
 {
     private GameObject _ghostObject;
-    public GameObject SellButtonPanel;
+    public Button SellButton;
 
     void Update()
     {
@@ -20,7 +23,7 @@ public class GhostFollowingButtonScript : MonoBehaviour
         Building building = ghost.GetComponent<Building>();
         if (building != null)
         {
-            SellButtonPanel.gameObject.SetActive(building.IsPlacedForReal);
+            SellButton.gameObject.SetActive(building.IsPlacedForReal);
         }
     }
 

@@ -51,7 +51,13 @@ MENU
 
 
 TODO:
-2. Zaimplementowaæ typy budynków, a nastêpnie stworzyæ ich prefaby -- DOKOÑCZYC
+
+1. Zarz¹dzanie budynkami w poziomu edytora. [NIEAKTUALNE]
+	- ScriptableObjects - ItemsDatabase
+	- Dodawanie nowych budynków z menu podrêcznego Create
+	- Wykrywanie budynków poprzez Resources ze zdefiniowanego katalogu (np. "Resources/Buildings")
+
+2. Zaimplementowaæ typy budynków, a nastêpnie stworzyæ ich prefaby
 
 3. Zaimplemenowaæ tryb Away.
 	- Zapisaæ czas zamkniêcia aplikacji
@@ -60,51 +66,28 @@ TODO:
 4. Stworzyæ menu startowe gry ?
 
 5. Stworzyæ menu opcji gry (dŸwiêk, credits, ?)
-	- w creditsach daæ informacje o autorach ikonek (licencja) lub stworzyæ w³asne ikonki
 
 6. Stworzyæ menu zakupów premium
 	- mo¿liwoœæ kupna Instant sh/s
 	- mo¿liwoœæ kupna Sh/s x2 Forever
-	- reset drzewka pasywek (level)
-	- instant reset
+	- ? (dodaæ jeszcze kilka)q
 	- mo¿liwoœæ zakupu punktów premium za gotówkê (PLN)
 
-10. Dodaæ obrazki dla wszystkich budynków (do panelu z budowlami) -- DOKOÑCZYC
+7. Stworzyæ menu zarz¹dzania budynkiem
+	X informacje o budynku
+	X ulepszanie budynku
+	- kupowanie bonusów budynku
 
-11. Ulepszenia
-	- dodaæ obrazki 
-	- dodaæ opisy
-	- dodaæ nazwy (wymyœliæ coœ)
-	- dodaæ inne typy ulepszeñ
+[X] 8. Zaimplementowaæ system kratek na mapie.
+	X budynki maj¹ okreœlon¹ wielkoœæ np. 4x5 (20 kratek)
+	X stawiaæ je mo¿na na wolnych kratkach
+	X budynki mo¿na obracaæ
 
-12. Dodaæ resety
+9. Stworzyæ menu trybu budowania
+	X ustawianie budynku 
+	X obracanie
+	X burzenie budynków
+	X wybieranie budynków z menu typu
+	- animacja przy otwieraniu menu budowania (wiruj¹cy klucz + dŸwiêk? - wy³¹czalne w opcjach)
+	X pauzowanie gry?
 
-13. Balans budynków
-	- dodaæ koszta
-	- dodaæ przychody
-
-14. Dodaæ klasê, która zlicza staty
-	- Lifetime cash
-	- current reset cash
-	- buildings bought
-	- upgrades bought
-	- total bonus points earned
-	- time played from beginning
-	- resets count
-	- lifetime - hut levels, small house levels, etc...
-	- current reset - hut levels, small house levels
-
-15. Na podstawie klasy zliczaj¹cej staty dodaæ odblokowywanie budynków 
-	- np. small house od 50 lvli Hut (³¹cznie), BigHouse od 40 lvli SmallHouse (³¹cznie)
-	- wyœwietlaæ informacje w panelu budynków
-	- dodaæ aktywne/nieaktywne panele budynków
-
-17. Poprawiæ wygl¹d menu do pozycjonowania budynku
-
-19. Dodaæ system zakupów za punkty premium
-
-20. LEVEL
-	- dodaæ drzewko umiejêtnoœæi pasywnych (np. total income + 10%, prestige income + 5%)
-	- w drzewku mo¿na odblokowywaæ budowle?
-
-21. Zamieniæ wszystkie inputy mouse na touche

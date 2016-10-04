@@ -2,8 +2,6 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Linq;
 
 [Serializable]
 public class Building : MonoBehaviour {
@@ -31,12 +29,7 @@ public class Building : MonoBehaviour {
     public float CostMultiplier;
 
     // Lista ulepszeń budynku (aktywne i nieaktywne). Na jej podstawie zliczane są bonusy
-    public Upgrade[] UpgradePrefabs; // -- prefaby
-    float UpgradesBaseIncomeMultiplier = 1;
-
-    [HideInInspector]
-    public Upgrade[] Upgrades; // -- właściwa zmienna z upgradeami
-
+    public Upgrade[] Upgrades;
 
     // Właściwość określa, czy budynek został postawiony za pomocą edytora.
     // Jeżeli tak to przy burzeniu należy zwrócić część kwoty.
@@ -46,16 +39,6 @@ public class Building : MonoBehaviour {
     //public GameObject BuildingPrefab;
     public GameObject ButtonPrefab;
     
-    void Awake()
-    {
-        List<Upgrade> upgradesList = new List<Upgrade>();
-        foreach(Upgrade prefab in UpgradePrefabs)
-        {
-            upgradesList.Add(prefab.GetCopy());
-        }
-        Upgrades = upgradesList.ToArray();
-    }
-
     public void InitializeBase()
     {
         BaseIncome = new BigInteger(iBaseIncome);
@@ -87,8 +70,8 @@ public class Building : MonoBehaviour {
     {
 		if (BaseIncome == null) InitializeBase();
 
-        // Wzór BaseIncome  * BuildingLevel
-        return (BaseIncome * UpgradesBaseIncomeMultiplier) * new BigInteger(BuildingLevel);
+		// Wzór BaseIncome  * BuildingLevel
+		return BaseIncome * new BigInteger(BuildingLevel);
     }
 
 
@@ -126,27 +109,6 @@ public class Building : MonoBehaviour {
         {
             BigInteger simulatedCost = SimulateCost(level);
             result += simulatedCost;
-        }
-
-        return result;
-    }
-
-    public bool ActivateUpgrade(Upgrade upgrade)
-    {
-        bool result = false;
-
-        if(Upgrades.Contains(upgrade))
-        {
-            Upgrade buildingUpgrade = Upgrades.FirstOrDefault(x => x.Name == upgrade.Name);
-            if (!buildingUpgrade.HasBeenBought)
-            {
-                buildingUpgrade.HasBeenBought = true;
-
-                // TODO : sprawdzać typ ulepszenia
-                UpgradesBaseIncomeMultiplier += buildingUpgrade.Value;
-
-                result = true;
-            }
         }
 
         return result;

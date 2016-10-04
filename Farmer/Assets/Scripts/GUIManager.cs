@@ -6,118 +6,85 @@ using System.Collections.Generic;
 
 public class GUIManager : MonoBehaviour
 {
-    void Start()
-    {
-        EditMode_InitializeStandardBuildingsButtons();
-        EditMode_InitializePrestigeBuildingsButtons();
-        EditMode_InitializeInfrastructureBuildingsButtons();
-    }
+	// InfoPanel
+	public Text MoneyLabel;
+	public Text MoneyGenerateText;
+
+
+	// Upgrades panel
+	public GameObject UpgradePanel;
+
+	// building name & income
+	public Text BuildingNameLabel;
+	public Text BuildingIncomeLabel;
+
+	// sell cost & upgrade cost
+	public Text UpgradeCostLabel;
+
+	// panel with upgrades
+	public GameObject BuildingButtonPanel;
+
+	// number of upgrades
+	public Text UpgradeNumberText;
+
+	// sell and upgrade button
+	public Button SellButton;
+	public Button UpgradeButton;
+
+	void Start()
+	{
+        InitializeStandardBuildingsPanelButtons();
+	}
+
+    #region ** EditMode panel
+    [Header("EditMode panel")]
+    public GameObject EditPanel;
     
-    #region ** EditMode
-    [Header("Edit mode")]
+    public GameObject BuildingsPanel;
+    public GameObject BuildingInfoPanel;
 
-    #region EditMode Public properties
-    public GameObject EditMode_MainPanel;
-    public GameObject EditMode_MainPanelToggleButton;
-    public Sprite EditMode_MainPanelToggleButtonActiveSprite;
-    public Sprite EditMode_MainPanelToggleButtonNotActiveSprite;
+    public GameObject GhostPositionGroup;
 
-    public GameObject EditMode_BuildingsPanel;
-    public GameObject EditMode_BuildingPanelPrefab;
 
-    public GameObject EditMode_GhostPositionGroupPanel;
-    public GameObject EditMode_GhostFollowingGroupPanel;
-
-    public GameObject EditMode_StandardBuildingsContent;
-    public GameObject EditMode_InfrastructureBuildingsContent;
-    public GameObject EditMode_PrestigeBuildingsContent;
-    #endregion
-
-    #region EditMode Private properties
-    bool _editModeMainPanelVisible = false;
-    #endregion
-
-    #region EditMode Methods
-    /// <summary>
-    /// Metoda ukrywa/wyświetla główny panel editMode
-    /// </summary>
-    public void EditMode_ToggleMainPanel()
+    bool editModePanelVisible = false;
+    public void ToggleEditPanel()
     {
-        _editModeMainPanelVisible = !_editModeMainPanelVisible;
-        
-        // Ukrywane jest menu ulepszenia budynku
-        if (_editModeMainPanelVisible == true)
-        {
-            BuildingMode_DisplayBuildingPanel(false);
-        }
-        
-        Helper.GetGameManager().SetEditMode(_editModeMainPanelVisible);
+        editModePanelVisible = !editModePanelVisible;
 
-        EditMode_MainPanelToggleButton.GetComponent<Image>().sprite = _editModeMainPanelVisible ? EditMode_MainPanelToggleButtonActiveSprite : EditMode_MainPanelToggleButtonNotActiveSprite;
+        if(editModePanelVisible == true)
+        {
+            DisplayUpgradesPanel(false);
+        }
 
-        if(_editModeMainPanelVisible)
-        {
-            EditMode_ShowMainPanel();
-        }
-        else
-        {
-            EditMode_HideMainPanel();
-            Helper.GetGridManager().CancelGhost();
-        }
+        Helper.GetGameManager().SetEditMode(editModePanelVisible);
+        EditPanel.SetActive(editModePanelVisible);
     }
 
-    /// <summary>
-    /// Metoda ukrywa/wyświetla panel z przyciskami do pozycjonowania budynku
-    /// </summary>
-    /// <param name="visible"></param>
-    public void EditMode_SetGhostPositionGroupVisible(bool visible)
+    public void SetGhostPositionGroupVisible(bool visible)
     {
-        EditMode_GhostPositionGroupPanel.SetActive(visible);
-    }
-
-    /// <summary>
-    /// Wyświetla główny panel edit mode
-    /// </summary>
-    public void EditMode_ShowMainPanel()
-    {
-        Animator animator = EditMode_MainPanel.GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.SetBool("IsVisible", true);
-        }
-    }
-
-    /// <summary>
-    /// Ukrywa główny panel edit mode
-    /// </summary>
-    public void EditMode_HideMainPanel()
-    {
-        Animator animator = EditMode_MainPanel.GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.SetBool("IsVisible", false);
-        }
-        EditMode_HideBuildingsPanel();
+        GhostPositionGroup.SetActive(visible);
     }
 
     /// <summary>
     /// Wyświetlenie menu budynków
     /// </summary>
-    public void EditMode_ShowBuildingsPanel()
+    public void ShowBuildingsPanel()
     {
-        Animator animator = EditMode_BuildingsPanel.GetComponent<Animator>();
-        if (animator != null)
+        Animator animator = BuildingsPanel.GetComponent<Animator>();
+        if(animator != null)
         {
-            animator.SetBool("IsVisible", true);
+            bool isVisible = animator.GetBool("IsVisible");
+            if(!isVisible)
+                animator.SetBool("IsVisible", true);
         }
     }
 
     /// <summary>
     /// Ukrywanie menu budynków
     /// </summary>
-    public void EditMode_HideBuildingsPanel()
+    public void HideBuildingsPanel()
     {
-        Animator animator = EditMode_BuildingsPanel.GetComponent<Animator>();
+        Animator animator = BuildingsPanel.GetComponent<Animator>();
         if (animator != null)
         {
             animator.SetBool("IsVisible", false);
@@ -127,7 +94,8 @@ public class GUIManager : MonoBehaviour
     /// <summary>
     /// Metoda inicjalizuje panel Standardowych budowli - wypełnia go przyciskami
     /// </summary>
-    public void EditMode_InitializeStandardBuildingsButtons()
+    public GameObject StandardBuildingsContent;
+    public void InitializeStandardBuildingsPanelButtons()
     {
         GameObject[] standardBuildings = BuildingsDatabase.GetBuildingsByType(BuildingType.Standard);
         Dictionary<GameObject, Building> temp = new Dictionary<GameObject, Building>();
@@ -137,293 +105,123 @@ public class GUIManager : MonoBehaviour
         {
             Building buildingScript = building.GetComponent<Building>();
 
-            if (buildingScript != null)
+            if(buildingScript != null)
             {
                 temp.Add(building, buildingScript);
             }
         }
 
         // Inicjalizowanie budynków
-        foreach (KeyValuePair<GameObject, Building> building in temp.OrderBy(x => x.Value.iBaseCost))
+        foreach(KeyValuePair<GameObject, Building> building in temp.OrderBy(x => x.Value.iBaseCost))
         {
             // Tworznie obiektu przycisku i wrzucanie go do kontenera
-            GameObject buildingInfoPanel = GameObject.Instantiate(EditMode_BuildingPanelPrefab);
-            buildingInfoPanel.transform.SetParent(EditMode_StandardBuildingsContent.transform, false);
+            GameObject buildingButton = Button.Instantiate(BuildingInfoPanel);
+            buildingButton.transform.SetParent(StandardBuildingsContent.transform, false);
 
-            EditMode_BuildingInfoPanelScript infoPanelScript = buildingInfoPanel.GetComponent<EditMode_BuildingInfoPanelScript>();
+            BuildingInfoPanel infoPanelScript = buildingButton.GetComponent<BuildingInfoPanel>();
             if (infoPanelScript != null)
             {
                 infoPanelScript.Initialize(building.Value, building.Key);
             }
         }
     }
+	#endregion
 
-    /// <summary>
-    /// Metoda inicjalizuje panel Standardowych budowli - wypełnia go przyciskami
-    /// </summary>
-    public void EditMode_InitializeInfrastructureBuildingsButtons()
-    {
-        GameObject[] infrastructureBuildings = BuildingsDatabase.GetBuildingsByType(BuildingType.Infrastructure);
-        Dictionary<GameObject, Building> temp = new Dictionary<GameObject, Building>();
-
-        // Pobieranie listy budynków
-        foreach (GameObject building in infrastructureBuildings)
-        {
-            Building buildingScript = building.GetComponent<Building>();
-
-            if (buildingScript != null)
-            {
-                temp.Add(building, buildingScript);
-            }
-        }
-
-        // Inicjalizowanie budynków
-        foreach (KeyValuePair<GameObject, Building> building in temp.OrderBy(x => x.Value.iBaseCost))
-        {
-            // Tworznie obiektu przycisku i wrzucanie go do kontenera
-            GameObject buildingInfoPanel = GameObject.Instantiate(EditMode_BuildingPanelPrefab);
-            buildingInfoPanel.transform.SetParent(EditMode_InfrastructureBuildingsContent.transform, false);
-
-            EditMode_BuildingInfoPanelScript infoPanelScript = buildingInfoPanel.GetComponent<EditMode_BuildingInfoPanelScript>();
-            if (infoPanelScript != null)
-            {
-                infoPanelScript.Initialize(building.Value, building.Key);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Metoda inicjalizuje panel Standardowych budowli - wypełnia go przyciskami
-    /// </summary>
-    public void EditMode_InitializePrestigeBuildingsButtons()
-    {
-        GameObject[] prestigeBuildings = BuildingsDatabase.GetBuildingsByType(BuildingType.Prestige);
-        Dictionary<GameObject, Building> temp = new Dictionary<GameObject, Building>();
-
-        // Pobieranie listy budynków
-        foreach (GameObject building in prestigeBuildings)
-        {
-            Building buildingScript = building.GetComponent<Building>();
-
-            if (buildingScript != null)
-            {
-                temp.Add(building, buildingScript);
-            }
-        }
-
-        // Inicjalizowanie budynków
-        foreach (KeyValuePair<GameObject, Building> building in temp.OrderBy(x => x.Value.iBaseCost))
-        {
-            // Tworznie obiektu przycisku i wrzucanie go do kontenera
-            GameObject buildingInfoPanel = GameObject.Instantiate(EditMode_BuildingPanelPrefab);
-            buildingInfoPanel.transform.SetParent(EditMode_PrestigeBuildingsContent.transform, false);
-
-            EditMode_BuildingInfoPanelScript infoPanelScript = buildingInfoPanel.GetComponent<EditMode_BuildingInfoPanelScript>();
-            if (infoPanelScript != null)
-            {
-                infoPanelScript.Initialize(building.Value, building.Key);
-            }
-        }
-    }
-    #endregion
-    #endregion
-
-    #region ** GameStats
+	#region ** GameStats panel
     [Header("Game stats")]
+	public GameObject ExperiencePanel;
+	public void SetExperiencePanelValue(float percentage)
+	{
+		ExperiencePanel.transform.localScale = new Vector3( percentage, ExperiencePanel.transform.localScale.y, ExperiencePanel.transform.localScale.z);
+	}
 
-    #region GameStats Public properties
-    public GameObject GameStats_ExperienceBar;
+    public Text LevelText;
+    public void SetLevelValue(int level)
+    {
+        LevelText.text = level.ToString();
+    }
 
-    public Text GameStats_LevelText;
-    public Text GameStats_ExperienceText;
-
-    public Text GameStats_MoneyText;
-    public Text GameStats_IncomeText;
+    public Text ExperienceText;
+    public void SetExperienceValue(int current, int required)
+    {
+        ExperienceText.text = string.Format("{0}/{1}", current, required);
+    }
     #endregion
 
-    #region GameStats Methods
     /// <summary>
-    /// Metoda zmienia rozmiar paska doświadczenia
+    /// Metoda zamyka panel informacji o budowli. Wywoływane przez przycisk Close
     /// </summary>
-    /// <param name="percentage"></param>
-    public void GameStats_SetExperienceBarValue(float percentage)
+    public void ClosePanel()
+	{
+		UpgradePanel.SetActive(false);
+	}
+
+	/// <summary>
+	/// Metoda ustawia informacje o budynku w panelu informacji.
+	/// </summary>
+	/// <param name="building"></param>
+	public void SetBuildingInfo(Building building)
+	{
+		if (building == null)
+		{
+            DisplayUpgradesPanel(false);
+		}
+		else
+		{
+            BuildingNameLabel.text = building.Name;
+			UpgradeNumberText.text = building.BuildingLevel.ToString();
+
+			BuildingIncomeLabel.text = Helper.GetDisplayableValue(building.GetIncome());
+
+			UpgradeCostLabel.text = Helper.GetDisplayableValue(building.GetCost());
+
+            Helper.GetGameManager().SetCurrentlySelectedBuilding(building);
+
+            DisplayUpgradesPanel(true);
+        }
+	}
+
+    public void SetBuildingUpgradeCostInfo(Building building, int levels)
     {
-        GameStats_ExperienceBar.transform.localScale = new Vector3(percentage, GameStats_ExperienceBar.transform.localScale.y, GameStats_ExperienceBar.transform.localScale.z);
+        if (building == null)
+        {
+            DisplayUpgradesPanel(false);
+        }
+        else
+        {
+            UpgradeCostLabel.text = Helper.GetDisplayableValue(building.CalculateCostForNextXLevels(levels));
+        }
     }
 
-    /// <summary>
-    /// Metoda zmiania wyświetlany poziom w labelu
-    /// </summary>
-    /// <param name="level"></param>
-    public void GameStats_SetLevelText(int level)
-    {
-        GameStats_LevelText.text = level.ToString();
-    }
-
-    /// <summary>
-    /// Metoda wyświetla informacje o doświadczeniu
-    /// </summary>
-    /// <param name="current"></param>
-    /// <param name="required"></param>
-    public void GameStats_SetExperienceValue(int current, int required)
-    {
-        GameStats_ExperienceText.text = string.Format("{0}/{1}", Helper.GetDisplayableValue(current), Helper.GetDisplayableValue(required));
-    }
 
     /// <summary>
     /// Metoda wyświetla informacje o gotówce generowanej w ciągu jednej sekundy.
     /// </summary>
     /// <param name="money"></param>
-    public void GameStats_SetIncomeInfo(BigInteger money)
-    {
-        GameStats_IncomeText.text = Helper.GetDisplayableValue(money);
-    }
+    public void SetMoneyGenerateInfo(BigInteger money)
+	{
+		MoneyGenerateText.text = Helper.GetDisplayableValue(money);
+	}
 
-    /// <summary>
-    /// Metoda ustawia informacje o aktualnej gotówce.
-    /// </summary>
-    /// <param name="building"></param>
-    public void GameStats_SetCurrentMoneyInfo(BigInteger money)
-    {
-        GameStats_MoneyText.text = Helper.GetDisplayableValue(money);
-    }
-    #endregion
-    #endregion
 
-    #region ** BuildingMode
-    [Header("BuildingMode")]
+	/// <summary>
+	/// Metoda ustawia informacje o aktualnej gotówce.
+	/// </summary>
+	/// <param name="building"></param>
+	public void SetMoneyInfo(BigInteger money)
+	{
+		MoneyLabel.text = Helper.GetDisplayableValue(money);
+	}
 
-    #region BuildingMode Public properties
-    public GameObject BuildingMode_BuildingPanel;
-    public Button BuildingMode_UpgradeButtonPrefab;
-    public GameObject BuildingMode_UpgradesPanel;
-    
-    public Text BuildingMode_BuildingNameText;
-    public Text BuildingMode_BuildingIncomeText;
-    public Text BuildingMode_UpgradeCostText;
-    public Text BuildingMode_UpgradeNumberText;
-    
-    public Button BuildingMode_BuyUpgradeButton;
-    public GameObject BuildingMode_CurrentBuildingMarker;
-    #endregion
-
-    #region BuildingMode Methods
-    /// <summary>
-    /// Metoda ustawia informacje o budynku w panelu informacji.
-    /// </summary>
-    /// <param name="building"></param>
-    public void BuildingMode_SetBuildingInfo(Building building)
-    {
-        if (building == null)
-        {
-            BuildingMode_DisplayBuildingPanel(false);
-        }
-        else
-        {
-            // Wyświetlanie nazwy i poziomu budynku
-            BuildingMode_BuildingNameText.text = building.Name;
-            BuildingMode_UpgradeNumberText.text = building.BuildingLevel.ToString();
-
-            // Wyświetlanie informacji o koszcie i przychodzie budynku
-            BuildingMode_BuildingIncomeText.text = Helper.GetDisplayableValue(building.GetIncome());
-            BuildingMode_UpgradeCostText.text = Helper.GetDisplayableValue(building.GetCost());
-
-            BuildingMode_InitializeBuildingUpgradeButtons(building);
-
-            Helper.GetGameManager().SetCurrentlySelectedBuilding(building);
-            BuildingMode_DisplayBuildingPanel(true);
-        }
-    }
-
-    /// <summary>
-    /// Metoda wyświetla przyciski z ulepszeniami budynku
-    /// </summary>
-    /// <param name="building"></param>
-    void BuildingMode_InitializeBuildingUpgradeButtons(Building building)
-    {
-        // Czyszczenie panelu
-        foreach (Transform child in BuildingMode_UpgradesPanel.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
-        // Wczytywanie ulepszeń
-        if (building != null && building.Upgrades.Any())
-        {
-            foreach (Upgrade upgrade in building.Upgrades)
-            {
-                Button btn = Button.Instantiate(BuildingMode_UpgradeButtonPrefab);
-
-                btn.GetComponentInChildren<Image>().sprite = upgrade.Image;
-
-                BuildingUpgradeButton upgradeButtonScript = btn.GetComponent<BuildingUpgradeButton>();
-                if (upgradeButtonScript != null)
-                {
-                    upgradeButtonScript.InitializeButton(upgrade);
-                }
-
-                btn.transform.SetParent(BuildingMode_UpgradesPanel.transform, false);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Metoda ukrywa/pokazuje menu z upgradeami budynku
-    /// </summary>
-    public void BuildingMode_DisplayBuildingPanel(bool visible)
-    {
-        Animator animator = BuildingMode_BuildingPanel.GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.SetBool("IsOpen", visible);
-            if(!visible)
-            {
-                BuildingMode_CurrentBuildingMarkerHide();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Metoda wyświetla informacje o aktualnym koszcie ulepszenia budynku na podstawie ilości leveli
-    /// </summary>
-    /// <param name="building"></param>
-    /// <param name="levels"></param>
-    public void BuildingMode_UpdateBuildingLevelCostInfo(Building building, int levels)
-    {
-        if (building == null)
-        {
-            BuildingMode_DisplayBuildingPanel(false);
-        }
-        else
-        {
-            BuildingMode_UpgradeCostText.text = Helper.GetDisplayableValue(building.CalculateCostForNextXLevels(levels));
-        }
-    }
-
-    /// <summary>
-    /// Metoda wyświetla marker
-    /// </summary>
-    public void BuildingMode_CurrentBuildingMarkerShow()
-    {
-        BuildingMode_CurrentBuildingMarker.SetActive(true);
-    }
-
-    /// <summary>
-    /// Metoda ukrywa marker
-    /// </summary>
-    public void BuildingMode_CurrentBuildingMarkerHide()
-    {
-        BuildingMode_CurrentBuildingMarker.SetActive(false);
-    }
-
-    /// <summary>
-    /// Metoda ustawia pozycję markera
-    /// </summary>
-    /// <param name="worldPosition"></param>
-    public void BuildingMode_CurrentBuildingMarkerSetPosition(Vector3 worldPosition)
-    {
-        BuildingMode_CurrentBuildingMarker.transform.position = Camera.main.WorldToScreenPoint(worldPosition) + new Vector3(0, 25);
-    }
-    #endregion
-    #endregion
+	/// <summary>
+	/// Metoda ukrywa/pokazuje menu z upgradeami
+	/// </summary>
+	public void DisplayUpgradesPanel(bool visible)
+	{
+		Animator animator = UpgradePanel.GetComponent<Animator>();
+		if(animator != null)
+		{
+			animator.SetBool("IsOpen", visible);
+		}
+	}
 }
