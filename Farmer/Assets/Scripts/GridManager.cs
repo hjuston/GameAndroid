@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
-	// Tymczasowy prefab który należy utworzyć jako ghost object
-	public GameObject Cube;
-
 	// Ghost object i jego materiał
 	private GameObject _ghostObject;
 	private GameObject GhostObject
@@ -53,6 +50,7 @@ public class GridManager : MonoBehaviour
 		}
 	}
 
+    Vector3 ghostOriginalPosition;
 	private void ActivateGhostObject()
 	{
 		// Activate following button to move object
@@ -63,7 +61,14 @@ public class GridManager : MonoBehaviour
 		GhostScript ghostScript = GhostObject.GetComponent<GhostScript>();
 		ghostScript.isGhost = true;
 
-        Helper.GetGUIManager().SetGhostPositionGroupVisible(true);
+        // Zapamiętywanie pozycji w razie anulowania
+        Building buildingScript = GhostObject.GetComponent<Building>();
+        if(buildingScript.IsPlacedForReal)
+        {
+            ghostOriginalPosition = GhostObject.transform.position;
+        }
+
+        Helper.GetGUIManager().EditMode_SetGhostPositionGroupVisible(true);
 	}
 
 	/// <summary>
@@ -100,8 +105,8 @@ public class GridManager : MonoBehaviour
 			}
 
 			GhostObject = null;
-            Helper.GetGUIManager().SetGhostPositionGroupVisible(false);
-            Helper.GetGUIManager().SetMoneyGenerateInfo(Helper.GetGameManager().GetCurrentIncome());
+            Helper.GetGUIManager().EditMode_SetGhostPositionGroupVisible(false);
+            Helper.GetGUIManager().GameStats_SetIncomeInfo(Helper.GetGameManager().GetCurrentIncome());
         }
 	}
 
@@ -114,6 +119,8 @@ public class GridManager : MonoBehaviour
 		ghostFollowScript.UnsetGhostObject();
 		GhostFollowingButton.SetActive(false);
 
+        if (GhostObject == null) return;
+
         Building buildingScript = GhostObject.GetComponent<Building>();
         if (buildingScript != null)
         {
@@ -121,9 +128,14 @@ public class GridManager : MonoBehaviour
             {
                 GameObject.Destroy(GhostObject);
             }
+            else
+            {
+                GhostObject.transform.position = ghostOriginalPosition;
+            }
         }
 
-		GhostObject = null;
+        Helper.GetGUIManager().EditMode_SetGhostPositionGroupVisible(false);
+        GhostObject = null;
 	}
 
 
@@ -144,6 +156,11 @@ public class GridManager : MonoBehaviour
                 Helper.GetGameManager().AddMoney(buildingScript.GetSellPrice());
             }
         }
+
+        Helper.GetGUIManager().EditMode_SetGhostPositionGroupVisible(false);
+        Helper.GetGUIManager().GameStats_SetIncomeInfo(Helper.GetGameManager().GetCurrentIncome());
+        GameObject.Destroy(GhostObject);
+        GhostObject = null;
     }
 
 	public void RotateGhost()

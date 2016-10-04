@@ -26,8 +26,8 @@ public class GameStats : MonoBehaviour {
             }
         }
 
-		Helper.GetGUIManager().SetExperiencePanelValue((float)_currentExperience / (float)_requiredExperience);
-        Helper.GetGUIManager().SetLevelValue(_level);
-        Helper.GetGUIManager().SetExperienceValue(_currentExperience, _requiredExperience);
+		Helper.GetGUIManager().GameStats_SetExperienceBarValue((float)_currentExperience / (float)_requiredExperience);
+        Helper.GetGUIManager().GameStats_SetLevelText(_level);
+        Helper.GetGUIManager().GameStats_SetExperienceValue(_currentExperience, _requiredExperience);
 	}
 }

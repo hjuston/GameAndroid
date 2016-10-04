@@ -3,9 +3,9 @@ using UnityEditor;
 
 public class CustomAssetsMenu
 {
-    //[MenuItem("Assets/Create/Building")]
-    //public static void CreateBuilding()
-    //{
-    //    //ScriptableObjectUtility.CreateAsset<Building>();
-    //}
+    [MenuItem("Assets/Create/Upgrade")]
+    public static void CreateUpgrade()
+    {
+        ScriptableObjectUtility.CreateAsset<Upgrade>();
+    }
 }

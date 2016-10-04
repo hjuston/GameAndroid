@@ -6,24 +6,6 @@ using System.ComponentModel;
 public static class Helper {
 
 	/// <summary>
-	/// Metoda zwraca obiekt BuildingManager
-	/// </summary>
-	/// <returns></returns>
-	public static BuildingManager GetBuildingManager()
-	{
-		BuildingManager result = null;
-
-		GameObject buildingManagerObject = GameObject.FindGameObjectWithTag(CONSTS.BuildingManagerTag);
-		if (buildingManagerObject != null)
-		{
-			result = buildingManagerObject.GetComponent<BuildingManager>();
-		}
-
-		return result;
-	}
-
-
-	/// <summary>
 	/// Metoda zwraca obiekt TileManager.
 	/// </summary>
 	/// <returns></returns>

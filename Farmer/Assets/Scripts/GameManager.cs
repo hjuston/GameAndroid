@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     private BigInteger _currentMoney = new BigInteger("123123331");
-    private BigInteger _generateMoneyCount = new BigInteger("100");
 
     private bool EditMode = false;
 
@@ -40,7 +41,11 @@ public class GameManager : MonoBehaviour
                     Building buildingScript = hitInfo.collider.GetComponent<Building>();
                     if (buildingScript != null)
                     {
-                        Helper.GetGUIManager().SetBuildingInfo(buildingScript);
+                        Helper.GetGUIManager().BuildingMode_SetBuildingInfo(buildingScript);
+
+                        // Wyświetlanie markera
+                        Helper.GetGUIManager().BuildingMode_CurrentBuildingMarkerShow();
+                        Helper.GetGUIManager().BuildingMode_CurrentBuildingMarkerSetPosition(hitInfo.collider.transform.position);
                     }
                 }
             }
@@ -63,7 +68,7 @@ public class GameManager : MonoBehaviour
     public void AddMoney(BigInteger money)
     {
         _currentMoney += money;
-        Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
+        Helper.GetGUIManager().GameStats_SetCurrentMoneyInfo(_currentMoney);
     }
 
 
@@ -76,7 +81,7 @@ public class GameManager : MonoBehaviour
         if (!EditMode)
         {
             _currentMoney += GetCurrentIncome();//_generateMoneyCount;
-            Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
+            Helper.GetGUIManager().GameStats_SetCurrentMoneyInfo(_currentMoney);
         }
     }
 
@@ -115,7 +120,7 @@ public class GameManager : MonoBehaviour
     public void SpendMoney(BigInteger money)
     {
         _currentMoney -= money;
-        Helper.GetGUIManager().SetMoneyInfo(_currentMoney);
+        Helper.GetGUIManager().GameStats_SetCurrentMoneyInfo(_currentMoney);
     }
 
     /// <summary>
@@ -138,13 +143,13 @@ public class GameManager : MonoBehaviour
 
             Helper.GetGameStats().AddExperience(selectedBuilding.BuildingUpgardeExperience * upgradeBy);
 
-            Helper.GetGUIManager().SetBuildingInfo(selectedBuilding);
+            Helper.GetGUIManager().BuildingMode_SetBuildingInfo(selectedBuilding);
             if(upgradeBy != 1)
             {
-                Helper.GetGUIManager().SetBuildingUpgradeCostInfo(selectedBuilding, upgradeBy);
+                Helper.GetGUIManager().BuildingMode_UpdateBuildingLevelCostInfo(selectedBuilding, upgradeBy);
             }
 
-            Helper.GetGUIManager().SetMoneyGenerateInfo(GetCurrentIncome());
+            Helper.GetGUIManager().GameStats_SetIncomeInfo(GetCurrentIncome());
         }
     }
 
@@ -152,6 +157,29 @@ public class GameManager : MonoBehaviour
     public void ToggleUpgradeBy(int levels)
     {
         upgradeBy = levels;
-        Helper.GetGUIManager().SetBuildingUpgradeCostInfo(selectedBuilding, upgradeBy);
+        Helper.GetGUIManager().BuildingMode_UpdateBuildingLevelCostInfo(selectedBuilding, upgradeBy);
+    }
+
+    public void BuyBuildingUpgrade(Upgrade upgrade)
+    {
+        if(selectedBuilding != null && selectedBuilding.Upgrades.Contains(upgrade))
+        {
+            if(_currentMoney >= new BigInteger(upgrade.Cost) && selectedBuilding.BuildingLevel >= upgrade.RequiredLevel)
+            {
+                // Activate upgrade
+                if (selectedBuilding.ActivateUpgrade(upgrade))
+                {
+                    SpendMoney(new BigInteger(upgrade.Cost));
+
+                    Helper.GetGUIManager().BuildingMode_SetBuildingInfo(selectedBuilding);
+                    if (upgradeBy != 1)
+                    {
+                        Helper.GetGUIManager().BuildingMode_UpdateBuildingLevelCostInfo(selectedBuilding, upgradeBy);
+                    }
+
+                    Helper.GetGUIManager().GameStats_SetIncomeInfo(GetCurrentIncome());
+                }
+            }
+        }
     }
 }
